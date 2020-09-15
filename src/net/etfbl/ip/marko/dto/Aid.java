@@ -1,6 +1,7 @@
 package net.etfbl.ip.marko.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Aid implements Serializable{
 
@@ -13,8 +14,8 @@ public class Aid implements Serializable{
 	private String title;
 	private String description;
 	private String imageUrl;
-	private String time;
-	private String location;
+	private Date date;
+	private String address;
 	private String status;
 	private String category;
 	
@@ -26,7 +27,7 @@ public class Aid implements Serializable{
 		this.title = title;
 		this.description = description;
 		this.imageUrl = imgUrl;
-		this.location = location;
+		this.address = location;
 		this.category = category;
 	}
 	public Aid(int id, String title, String description, String imgUrl, String location, String status,
@@ -35,7 +36,7 @@ public class Aid implements Serializable{
 		this.title = title;
 		this.description = description;
 		this.imageUrl = imgUrl;
-		this.location = location;
+		this.address = location;
 		this.status = status;
 		this.category = category;
 	}
@@ -64,11 +65,11 @@ public class Aid implements Serializable{
 	public void setImageUrl(String imgUrl) {
 		this.imageUrl = imgUrl;
 	}
-	public String getLocation() {
-		return location;
+	public String getAddress() {
+		return address;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getStatus() {
 		return status;
@@ -83,13 +84,14 @@ public class Aid implements Serializable{
 		this.category = category;
 	}
 
-	public String getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
+
 	
 	
 

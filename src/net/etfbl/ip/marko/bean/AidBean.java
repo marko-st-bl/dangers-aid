@@ -1,15 +1,14 @@
 package net.etfbl.ip.marko.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import net.etfbl.ip.marko.dao.AidDAO;
 import net.etfbl.ip.marko.dto.Aid;
 
-@ManagedBean
+@ManagedBean(name="aidBean")
 @SessionScoped
 public class AidBean implements Serializable{
 
@@ -19,12 +18,22 @@ public class AidBean implements Serializable{
 	private static final long serialVersionUID = -4279198337866188433L;
 	
 	private Aid aid;
-	private List<Aid> aids;
+	private String message;
 	
 	public AidBean() {
 		super();
 		this.aid = new Aid();
-		this.aids = new ArrayList<>();
+	}
+	
+	public String addAid() {
+		boolean result = false;
+		result = new AidDAO().addAid(aid);
+		if(result) {
+			this.message = "Call for help succesfully added.";
+		} else {
+			this.message="Couldn't add call for help.";
+		}
+		return "";
 	}
 
 	public Aid getAid() {
@@ -35,12 +44,13 @@ public class AidBean implements Serializable{
 		this.aid = aid;
 	}
 
-	public List<Aid> getAids() {
-		return aids;
+
+	public String getMessage() {
+		return message;
 	}
 
-	public void setAids(List<Aid> aids) {
-		this.aids = aids;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	
