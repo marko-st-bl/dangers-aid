@@ -48,7 +48,7 @@ public class AidDAO {
 		
 		String query = "select id, title, description, location, date, image, category "
 				+ "from aid "
-				+ "where status='valid";
+				+ "where status='valid'";
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
@@ -56,7 +56,7 @@ public class AidDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(3), new java.util.Date(rs.getDate(4).getTime()), rs.getString(5), rs.getString(6)));
+				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getDate(5).getTime()), rs.getString(6), rs.getString(7)));
 			}
 			ps.close();
 		} catch (SQLException e) {

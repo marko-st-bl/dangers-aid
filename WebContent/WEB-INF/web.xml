@@ -30,4 +30,16 @@
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>resources.application</param-value>
 	</context-param>
+	<servlet> 
+      <servlet-name>Jersey RESTful Application</servlet-name> 
+      <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class> 
+      <init-param> 
+         <param-name>jersey.config.server.provider.packages</param-name> 
+         <param-value>net.etfbl.ip.marko.api</param-value> 
+      </init-param> 
+   </servlet> 
+   <servlet-mapping> 
+      <servlet-name>Jersey RESTful Application</servlet-name> 
+      <url-pattern>/api/*</url-pattern> 
+   </servlet-mapping>
 </web-app>
