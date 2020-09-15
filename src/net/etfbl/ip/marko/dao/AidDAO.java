@@ -2,10 +2,12 @@ package net.etfbl.ip.marko.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.etfbl.ip.marko.dto.Aid;
-;
 
 public class AidDAO {
 	
@@ -33,6 +35,33 @@ public class AidDAO {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		return retVal;
+	}
+
+	public List<Aid> getAids() {
+		List<Aid> retVal = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String query = "select id, title, description, location, date, image, category "
+				+ "from aid "
+				+ "where status='valid";
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(3), new java.util.Date(rs.getDate(4).getTime()), rs.getString(5), rs.getString(6)));
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
 			ConnectionPool.getConnectionPool().checkIn(conn);
 		}
 		return retVal;
