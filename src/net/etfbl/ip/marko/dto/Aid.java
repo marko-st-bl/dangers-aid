@@ -3,6 +3,10 @@ package net.etfbl.ip.marko.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "aid")
 public class Aid implements Serializable {
 
 	/**
@@ -49,12 +53,14 @@ public class Aid implements Serializable {
 		this.address = location;
 		this.date = date;
 		this.imageUrl = image;
+		this.category = category;
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	@XmlElement
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -63,6 +69,7 @@ public class Aid implements Serializable {
 		return title;
 	}
 
+	@XmlElement
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -71,6 +78,7 @@ public class Aid implements Serializable {
 		return description;
 	}
 
+	@XmlElement
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -79,6 +87,7 @@ public class Aid implements Serializable {
 		return imageUrl;
 	}
 
+	@XmlElement
 	public void setImageUrl(String imgUrl) {
 		this.imageUrl = imgUrl;
 	}
@@ -87,6 +96,7 @@ public class Aid implements Serializable {
 		return address;
 	}
 
+	@XmlElement
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -103,6 +113,7 @@ public class Aid implements Serializable {
 		return category;
 	}
 
+	@XmlElement
 	public void setCategory(String category) {
 		this.category = category;
 	}
@@ -111,6 +122,7 @@ public class Aid implements Serializable {
 		return date;
 	}
 
+	@XmlElement
 	public void setDate(Date date) {
 		this.date = date;
 	}

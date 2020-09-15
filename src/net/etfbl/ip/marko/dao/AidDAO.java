@@ -67,4 +67,83 @@ public class AidDAO {
 		return retVal;
 	}
 
+	public Aid getAidById(int id) {
+		Aid retVal = null;
+		Connection conn = null;
+		PreparedStatement ps =null;
+		ResultSet rs = null;
+		
+		String query = "select id, title, description, location, date, image, category "
+				+ "from aid "
+				+ "where status='valid' and id=?";
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getDate(5).getTime()), rs.getString(6), rs.getString(7));
+			}
+			
+			ps.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		return retVal; 
+	}
+
+	public boolean blockAid(int id) {
+		boolean retVal = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String query = "update aid set status='blocked' "
+				+ "where id=?";
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ps= conn.prepareStatement(query);
+			ps.setInt(1, id);
+			
+			if(ps.executeUpdate() == 1) {
+				retVal = true;
+			}
+			ps.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		return retVal;
+	}
+
+	public boolean reportAid(int id) {
+		boolean retVal = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String query = "update aid set status='false' "
+				+ "where id=?";
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ps= conn.prepareStatement(query);
+			ps.setInt(1, id);
+			
+			if(ps.executeUpdate() == 1) {
+				retVal = true;
+			}
+			ps.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		return retVal;
+	}
+
 }
