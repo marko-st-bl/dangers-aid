@@ -3,6 +3,7 @@ package net.etfbl.ip.marko.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -40,7 +41,18 @@ public class AidService {
 		}else {
 			return Response.status(404).build();
 		}
-		
+	}
+	
+	@DELETE
+	@Path("/aids/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteAid(@PathParam("id") int id) {
+		boolean retVal = new AidDAO().deleteAid(id);
+		if(retVal) {
+			return Response.status(200).build();
+		} else {
+			return Response.status(404).build();
+		}
 	}
 	
 	@PUT

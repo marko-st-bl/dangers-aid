@@ -7,7 +7,7 @@
 	<h:outputStylesheet name="styles.css" />
 </h:head>
 <h:body>
-	<section class="page-section">
+	<section class="page-section bg-light">
 		<div class="container justify-content-center">
 			<div class="text-center">
 				<h2 class="section-heading text-uppercase text-primary">AID</h2>
@@ -36,7 +36,7 @@
 					<h:inputText class="form-control col-md-6 col-lg-5"
 						converter="javax.faces.DateTime" name="date"
 						value="#{aidBean.aid.date}">
-						<f:convertDateTime pattern="dd.mm.yyyy" />
+						<f:convertDateTime pattern="dd.mm.yyyy HH:mm" />
 					</h:inputText>
 				</div>
 				<div class="row justify-content-center">

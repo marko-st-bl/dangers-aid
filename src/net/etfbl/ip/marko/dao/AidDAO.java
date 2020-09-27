@@ -24,7 +24,7 @@ public class AidDAO {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, aid.getTitle());
 			ps.setString(2, aid.getDescription());
-			ps.setDate(3, new java.sql.Date(aid.getDate().getTime()));
+			ps.setTimestamp(3, new java.sql.Timestamp(aid.getDate().getTime()));
 			ps.setString(4, aid.getAddress());
 			ps.setString(5, aid.getImageUrl());
 			ps.setString(6, aid.getCategory());
@@ -56,7 +56,7 @@ public class AidDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getDate(5).getTime()), rs.getString(6), rs.getString(7)));
+				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getTimestamp(5).getTime()), rs.getString(6), rs.getString(7)));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -84,7 +84,7 @@ public class AidDAO {
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getDate(5).getTime()), rs.getString(6), rs.getString(7));
+				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getTimestamp(5), rs.getString(6), rs.getString(7));
 			}
 			
 			ps.close();
@@ -137,6 +137,29 @@ public class AidDAO {
 			if(ps.executeUpdate() == 1) {
 				retVal = true;
 			}
+			ps.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getConnectionPool().checkIn(conn);
+		}
+		return retVal;
+	}
+
+	public boolean deleteAid(int id) {
+		boolean retVal = false;
+		Connection conn = null;
+		PreparedStatement ps =null;
+		
+		String query = "delete from aid where id=?";
+		
+		try {
+			conn = ConnectionPool.getConnectionPool().checkOut();
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, id);
+			
+			retVal = ps.executeUpdate() == 1;
+			
 			ps.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
