@@ -46,7 +46,7 @@ public class AidDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String query = "select a.id, title, description, location, date, image, name, createdAt "
+		String query = "select a.id, title, description, location, date, image, name, createdAt, reportedAsFalse "
 				+ "from aid a inner join category c on a.categoryId=c.id "
 				+ "where status='valid'";
 		
@@ -58,7 +58,7 @@ public class AidDAO {
 			while(rs.next()) {
 				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						new java.util.Date(rs.getTimestamp(5).getTime()), rs.getString(6),
-						rs.getString(7), rs.getTimestamp(8)));
+						rs.getString(7), rs.getTimestamp(8), rs.getBoolean(9)));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -75,9 +75,9 @@ public class AidDAO {
 		PreparedStatement ps =null;
 		ResultSet rs = null;
 		
-		String query = "select a.id, title, description, location, date, image, name, createdAt "
+		String query = "select a.id, title, description, location, date, image, name, createdAt, reportedAsFalse "
 				+ "from aid a inner join category c on a.categoryId=c.id "
-				+ "where status='valid' and id=?";
+				+ "where a.id=?";
 		
 		try {
 			conn = ConnectionPool.getConnectionPool().checkOut();
@@ -87,7 +87,7 @@ public class AidDAO {
 			
 			if(rs.next()) {
 				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), 
-						rs.getTimestamp(5), rs.getString(6), rs.getString(7), rs.getTimestamp(8));
+						rs.getTimestamp(5), rs.getString(6), rs.getString(7), rs.getTimestamp(8), rs.getBoolean(9));
 			}
 			
 			ps.close();
@@ -129,7 +129,7 @@ public class AidDAO {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		String query = "update aid set status='false' "
+		String query = "update aid set reportedAsFalse=1 "
 				+ "where id=?";
 		
 		try {

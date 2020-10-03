@@ -20,6 +20,7 @@ public class Aid implements Serializable {
 	private String status;
 	private String category;
 	private Timestamp createdAt;
+	private boolean reportedAsFalse;
 
 	public Aid() {
 		super();
@@ -45,7 +46,7 @@ public class Aid implements Serializable {
 	}
 
 	public Aid(int id, String title, String description, String location, Date date, String image, String category, 
-			Timestamp createdAt) {
+			Timestamp createdAt, boolean reported) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -54,6 +55,7 @@ public class Aid implements Serializable {
 		this.imageUrl = image;
 		this.category = category;
 		this.createdAt = createdAt;
+		this.reportedAsFalse = reported;
 	}
 
 	public int getId() {
@@ -126,6 +128,14 @@ public class Aid implements Serializable {
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public boolean getReportedAsFalse() {
+		return reportedAsFalse;
+	}
+
+	public void setReportedAsFalse(boolean reportedAsFalse) {
+		this.reportedAsFalse = reportedAsFalse;
 	}
 
 }
