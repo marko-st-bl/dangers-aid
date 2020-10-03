@@ -16,7 +16,7 @@ public class AidDAO {
 		Connection conn = null;
 		PreparedStatement ps =null;
 		
-		String query = "insert into aid (title, description, date, location, image, category) "
+		String query = "insert into aid (title, description, date, location, image, categoryId) "
 				+ "values (?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -27,7 +27,7 @@ public class AidDAO {
 			ps.setTimestamp(3, new java.sql.Timestamp(aid.getDate().getTime()));
 			ps.setString(4, aid.getAddress());
 			ps.setString(5, aid.getImageUrl());
-			ps.setString(6, aid.getCategory());
+			ps.setInt(6, new CategoryDAO().getCategoryByName(aid.getCategory()).getId());
 			
 			retVal = ps.executeUpdate() == 1;
 			
@@ -46,8 +46,8 @@ public class AidDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String query = "select id, title, description, location, date, image, category "
-				+ "from aid "
+		String query = "select a.id, title, description, location, date, image, name, createdAt "
+				+ "from aid a inner join category c on a.categoryId=c.id "
 				+ "where status='valid'";
 		
 		try {
@@ -56,7 +56,9 @@ public class AidDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), new java.util.Date(rs.getTimestamp(5).getTime()), rs.getString(6), rs.getString(7)));
+				retVal.add(new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						new java.util.Date(rs.getTimestamp(5).getTime()), rs.getString(6),
+						rs.getString(7), rs.getTimestamp(8)));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -73,8 +75,8 @@ public class AidDAO {
 		PreparedStatement ps =null;
 		ResultSet rs = null;
 		
-		String query = "select id, title, description, location, date, image, category "
-				+ "from aid "
+		String query = "select a.id, title, description, location, date, image, name, createdAt "
+				+ "from aid a inner join category c on a.categoryId=c.id "
 				+ "where status='valid' and id=?";
 		
 		try {
@@ -84,7 +86,8 @@ public class AidDAO {
 			rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getTimestamp(5), rs.getString(6), rs.getString(7));
+				retVal = new Aid(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), 
+						rs.getTimestamp(5), rs.getString(6), rs.getString(7), rs.getTimestamp(8));
 			}
 			
 			ps.close();

@@ -20,7 +20,7 @@ public class AidService {
 	
 	@GET
 	@Path("/aids")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAids(){
 		List<Aid> retVal = new ArrayList<>();
 		retVal = new AidDAO().getAids();
@@ -33,7 +33,7 @@ public class AidService {
 	
 	@GET
 	@Path("/aids/{id}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAidById(@PathParam("id") int id) {
 		Aid retVal = new AidDAO().getAidById(id);
 		if(retVal != null) {
@@ -57,7 +57,7 @@ public class AidService {
 	
 	@PUT
 	@Path("/aids/block/{id}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response blockAid(@PathParam("id") int id) {
 		if(new AidDAO().blockAid(id)) {
 			return Response.status(200).build();
@@ -68,7 +68,7 @@ public class AidService {
 	
 	@PUT
 	@Path("/aids/report/{id}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response reportAid(@PathParam("id") int id) {
 		if(new AidDAO().reportAid(id)) {
 			return Response.status(200).build();

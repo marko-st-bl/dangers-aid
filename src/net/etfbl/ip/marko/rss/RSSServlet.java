@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.rometools.rome.feed.synd.SyndCategory;
+import com.rometools.rome.feed.synd.SyndCategoryImpl;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndContentImpl;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndEntryImpl;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -47,10 +51,19 @@ public class RSSServlet extends HttpServlet {
 		List<SyndEntry> entries = new ArrayList<>();
 		List<Aid> aids = new AidDAO().getAids();
 		for (Aid aid: aids) {
+			SyndContent syndItemDescription = new SyndContentImpl();
+			List<SyndCategory> syndCategories = new ArrayList<>();
+			syndItemDescription.setValue(aid.getDescription() + " Adress: "  + aid.getAddress()
+					+ " Time: " + aid.getDate());
+			SyndCategoryImpl syndCategory = new SyndCategoryImpl();
+			syndCategory.setName(aid.getCategory());
+			syndCategories.add(syndCategory);
 			SyndEntry item = new SyndEntryImpl();
 			item.setTitle(aid.getTitle());
 			item.setLink(aid.getImageUrl());
-			item.setPublishedDate(aid.getDate());
+			item.setPublishedDate(aid.getCreatedAt());
+			item.setDescription(syndItemDescription);
+			item.setCategories(syndCategories);
 			entries.add(item);
 		}
 		feed.setEntries(entries);
